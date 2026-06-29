@@ -44,4 +44,17 @@ public class CoinManager : MonoBehaviour
             coinText.text = currentCoins.ToString();
         }
     }
+
+    public void BuyItem(int price)
+    {
+        if (CanAfford(price))
+        {
+            RemoveCoins(price);
+            Debug.Log("Item purchased for " + price + " coins");
+        }
+        else
+        {
+            Debug.Log("Not enough coins to purchase item");
+        }
+    }
 }
