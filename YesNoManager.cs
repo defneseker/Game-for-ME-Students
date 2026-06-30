@@ -9,6 +9,8 @@ public class YesNoManager : MonoBehaviour
     [SerializeField] private List<YesNoQuestion> questionList;
 
     private int index = 0;
+    private LevelTimer levelTimer;
+    private bool quizInteractable = true;
 
     public int GetCurrentLevelNumber()
     {
@@ -35,6 +37,12 @@ public class YesNoManager : MonoBehaviour
 
         questionList.Add(new YesNoQuestion("ex question1, a: yes", true, EvaluateAnswer));
         questionList.Add(new YesNoQuestion("ex question2, a:no", false, EvaluateAnswer));
+        levelTimer = Object.FindFirstObjectByType<LevelTimer>();
+        if (levelTimer != null)
+        {
+            quizInteractable = false;
+            SetQuizButtons(false);
+        }
         NextQuestion();
     }
 
@@ -42,7 +50,7 @@ public class YesNoManager : MonoBehaviour
     {
         if (index >= questionList.Count) {
             SceneManager.LoadScene("LevelSuccess");
-            PlayerPrefs.SetInt("ReachedLevel", 3);
+            PlayerPrefs.SetInt("ReachedLevel", currentLevel + 1);
             return;
         }
         YesNoQuestion cur = questionList[index];
@@ -52,6 +60,7 @@ public class YesNoManager : MonoBehaviour
 
     private void EvaluateAnswer(bool isCorrect)
     {
+        if (!quizInteractable) return;
         if (!isCorrect)
         {
             SceneManager.LoadScene("LevelFail");
@@ -60,5 +69,20 @@ public class YesNoManager : MonoBehaviour
         }
         index++;
         NextQuestion();
+    }
+
+    public void EnableQuizInteraction()
+    {
+        quizInteractable = true;
+        SetQuizButtons(true);
+    }
+
+    public void SetQuizButtons(bool state)
+    {
+        UnityEngine.UI.Button[] buttons = questionUI.GetComponentsInChildren<UnityEngine.UI.Button>();
+        foreach (var btn in buttons)
+        {
+            btn.interactable = state;
+        }
     }
 }
