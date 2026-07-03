@@ -43,6 +43,7 @@ public class ItemPopUp : MonoBehaviour
         {
             coinManager.BuyItem(pendingItem.price);
             MaterialManager.Instance.currentMaterial = pendingItem;
+            PlayerPrefs.SetInt("CurrentMaterial", pendingItem.order);
         }
         ClosePopup();
     }

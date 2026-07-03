@@ -32,7 +32,7 @@ public class ShopItemSlot : MonoBehaviour
 
     public void OnSlotClicked()
     {
-        int currentOrder = MaterialManager.Instance.currentMaterial.order;
+        int currentOrder = PlayerPrefs.GetInt("CurrentMaterial");
         if (itemData != null && popupWindow != null)
         {
             if (itemData.order == 0 && currentOrder == 0)
