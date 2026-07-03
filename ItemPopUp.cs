@@ -9,7 +9,7 @@ public class ItemPopUp : MonoBehaviour
     public Button confirmButton;
     public Button cancelButton;
 
-    private ShopItem pendingItem;
+    private MaterialObject pendingItem;
     private CoinManager coinManager;
 
     void Awake()
@@ -17,11 +17,11 @@ public class ItemPopUp : MonoBehaviour
         coinManager = Object.FindFirstObjectByType<CoinManager>();
     }
 
-    public void OpenPopup(ShopItem item)
+    public void OpenPopup(MaterialObject item)
     {
         pendingItem = item;
-        itemName.text = $"Buy {item.itemName} for {item.itemCost} coins?";
-        previewImage.sprite = item.itemIcon;
+        itemName.text = $"Buy {item.materialName} for {item.price} coins?";
+        previewImage.sprite = item.icon;
 
         confirmButton.onClick.RemoveAllListeners();
         cancelButton.onClick.RemoveAllListeners();

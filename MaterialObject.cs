@@ -8,4 +8,5 @@ public class MaterialObject : ScriptableObject
     public float fatigueSrengthExp;
     public int price;
     public Sprite icon;
+    public int order;
 }

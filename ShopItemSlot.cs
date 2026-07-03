@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class ShopItemSlot : MonoBehaviour
 {
     [Header("Item Data")]
-    public ShopItem itemData; 
+    public MaterialObject itemData;
 
     [Header("UI Component References")]
     public Image buttonIconImage;        
@@ -19,7 +19,7 @@ public class ShopItemSlot : MonoBehaviour
     {
         if (itemData != null && buttonIconImage != null)
         {
-            buttonIconImage.sprite = itemData.itemIcon;
+            buttonIconImage.sprite = itemData.icon;
         }
     }
 
