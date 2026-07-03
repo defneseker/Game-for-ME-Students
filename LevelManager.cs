@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class LevelManager : MonoBehaviour
 {
     public Button[] levelButtons;
+    public Button shopButton;
     void Start()
     {
         int reachedLevel = PlayerPrefs.GetInt("ReachedLevel", 1);
@@ -24,5 +25,10 @@ public class LevelManager : MonoBehaviour
     public void OpenLevel(int levelIndex)
     {
         SceneManager.LoadScene("Level" + (levelIndex + 1)); 
+    }
+
+    public void OpenShop()
+    {
+        SceneManager.LoadScene("Shop");
     }
 }
