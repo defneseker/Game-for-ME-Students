@@ -1,5 +1,7 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
+
 
 public class CoinManager : MonoBehaviour
 {
@@ -56,5 +58,10 @@ public class CoinManager : MonoBehaviour
         {
             Debug.Log("Not enough coins to purchase item");
         }
+    }
+
+    public void BackToMap()
+    {
+        SceneManager.LoadScene("Map");
     }
 }
