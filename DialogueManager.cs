@@ -18,6 +18,8 @@ public class DialogueManager : MonoBehaviour
     public void GoToLevel()
     {
         instructionsPanel.SetActive(false);
+        PlayerPrefs.SetInt("VisitedLevel1", 1);
+        PlayerPrefs.Save();
     }
     
 }
