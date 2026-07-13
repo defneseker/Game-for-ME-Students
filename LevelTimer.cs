@@ -11,6 +11,8 @@ public class LevelTimer : MonoBehaviour
     private bool isRunning = false;
     [SerializeField] private TextMeshProUGUI timeDisplay;
     [SerializeField] private Button startTimerButton;
+    public GameObject instructionsPanel;
+    public GameObject warningPanel;
 
     private YesNoManager yesNoManager;
 
@@ -33,6 +35,14 @@ public class LevelTimer : MonoBehaviour
     int currentLevel;
     void Start()
     {
+        if (PlayerPrefs.GetInt("CurrentMaterial") < 1)
+        {
+            warningPanel.SetActive(true);
+        }
+        if (PlayerPrefs.GetInt("VisitedLevel2", 0) == 1)
+        {
+            instructionsPanel.SetActive(false);
+        }
         currentLevel = GetCurrentLevelNumber();
         PlayerPrefs.SetInt("PreviousSceneIndex", currentLevel);
         PlayerPrefs.Save();
@@ -74,5 +84,27 @@ public class LevelTimer : MonoBehaviour
         int mins = Mathf.FloorToInt(time / 60);
         int secs = Mathf.FloorToInt(time % 60);
         timeDisplay.text = string.Format ("{0:00}:{1:00}", mins, secs);
+    }
+
+    public void GoToLevel()
+    {
+        instructionsPanel.SetActive(false);
+        PlayerPrefs.SetInt("VisitedLevel2", 1);
+        PlayerPrefs.Save();
+    }
+
+    public void OpenInstructions()
+    {
+        instructionsPanel.SetActive(true);
+    }
+
+    public void GoToShop()
+    {
+        SceneManager.LoadScene("Shop");
+    }
+
+    public void GoToMap()
+    {
+        SceneManager.LoadScene("Map");
     }
 }
