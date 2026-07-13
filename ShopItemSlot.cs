@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ShopItemSlot : MonoBehaviour
 {
@@ -12,9 +13,18 @@ public class ShopItemSlot : MonoBehaviour
     public GameObject defaultPanel;
     public GameObject lowerMatPanel;
     public GameObject detailsPanel;
+    public GameObject alreadyHerePanel;
     public Button closeDefault;
+    public Button closeDefaultDetails;
     public Button closeLowerMat;
     public Button defaultDetails;
+    public Button closeAlrHere;
+    public Button openDetails;
+
+    public TextMeshProUGUI detailsTextA;
+    public TextMeshProUGUI detailsTextB;
+    public TextMeshProUGUI detailsTextSe;
+    public TextMeshProUGUI detailsTextSut;
     
 
     void Start()
@@ -39,8 +49,10 @@ public class ShopItemSlot : MonoBehaviour
             {
                 closeDefault.onClick.RemoveAllListeners();
                 defaultDetails.onClick.RemoveAllListeners();
+                closeDefaultDetails.onClick.RemoveAllListeners();
                 closeDefault.onClick.AddListener(CloseDefault);
-                defaultDetails.onClick.AddListener(OpenDefaultDetails);
+                defaultDetails.onClick.AddListener(OpenDetails);
+                closeDefaultDetails.onClick.AddListener(CloseDefaultDetails);
                 defaultPanel.SetActive(true);
             }
             else if (itemData.order < currentOrder)
@@ -48,6 +60,14 @@ public class ShopItemSlot : MonoBehaviour
                 closeLowerMat.onClick.RemoveAllListeners();
                 closeLowerMat.onClick.AddListener(CloseLowerMat);
                 lowerMatPanel.SetActive(true);
+            }
+            else if (itemData.order == currentOrder)
+            {
+                closeAlrHere.onClick.RemoveAllListeners();
+                openDetails.onClick.RemoveAllListeners();
+                closeAlrHere.onClick.AddListener(CloseAlrHere);
+                openDetails.onClick.AddListener(OpenDetails);
+                alreadyHerePanel.SetActive(true);
             }
             else
             {
@@ -67,8 +87,22 @@ public class ShopItemSlot : MonoBehaviour
         lowerMatPanel.SetActive(false);
     }
 
-    public void OpenDefaultDetails()
+    public void CloseDefaultDetails()
     {
+        detailsPanel.SetActive(false);
+    }
+
+    public void CloseAlrHere()
+    {
+        alreadyHerePanel.SetActive(false);
+    }
+
+    public void OpenDetails()
+    {
+        detailsTextA.text = itemData.fatigueStrengthCoeff.ToString();
+        detailsTextB.text = itemData.fatigueSrengthExp.ToString();
+        detailsTextSe.text = itemData.enduranceLimit.ToString();
+        detailsTextSut.text = itemData.ultTensileStrength.ToString();
         detailsPanel.SetActive(true);
     }
 }
