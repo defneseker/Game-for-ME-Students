@@ -6,23 +6,28 @@ using System.Text.RegularExpressions;
 public class Level1Finish : MonoBehaviour
 {
     public TMP_InputField no1;
-    public TMP_InputField no2;
+
+    public GameObject welcomePanel;
+    public float finalResult;
     
     public void CheckAnswer()
     {
         float val1 = ConvertToFloat(no1.text);
-        float val2 = ConvertToFloat(no2.text);
-        float finalResult = val1 + val2;
-        if (finalResult == 5)
+        float a = PlayerPrefs.GetFloat("aVal", 400);
+        float b = PlayerPrefs.GetFloat("bVal", -0.08f);
+        finalResult = Mathf.Pow((val1 / a), (1 / b));
+        PlayerPrefs.SetFloat("CurrentResult", finalResult);
+        PlayerPrefs.Save();
+        if (finalResult >= 5)
         {
             Debug.Log("Correct");
-            SceneManager.LoadScene("LevelSuccess");
+            SceneManager.LoadScene("Level1Success");
             PlayerPrefs.SetInt("ReachedLevel", 2);
         }
         else
         {
             Debug.Log("Incorrect");
-            SceneManager.LoadScene("LevelFail");
+            SceneManager.LoadScene("Level1Fail");
         }
     }
 
@@ -32,7 +37,7 @@ public class Level1Finish : MonoBehaviour
         {
             return result;
         }
-        return 0f; // Returns 0 if the field was left empty
+        return 0f; 
     }
 
     public int GetCurrentLevelNumber()
@@ -54,6 +59,10 @@ public class Level1Finish : MonoBehaviour
     int currentLevel;
     void Start()
     {
+        if (PlayerPrefs.GetInt("VisitedLevel1", 0) == 1)
+        {
+            welcomePanel.SetActive(false);
+        }
         currentLevel = GetCurrentLevelNumber();
         PlayerPrefs.SetInt("PreviousSceneIndex", currentLevel);
         PlayerPrefs.Save();
