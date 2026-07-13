@@ -1,12 +1,15 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
 
 public class CoinManager : MonoBehaviour
 {
     [Header ("UI Reference")]
     public TextMeshProUGUI coinText;
+    public GameObject CanBuyPanel;
+    public GameObject CannotBuyPanel;
+
 
     [Header("Coin Data")]
     private int currentCoins = 0;
@@ -52,11 +55,11 @@ public class CoinManager : MonoBehaviour
         if (CanAfford(price))
         {
             RemoveCoins(price);
-            Debug.Log("Item purchased for " + price + " coins");
+            CanBuyPanel.SetActive(true);
         }
         else
         {
-            Debug.Log("Not enough coins to purchase item");
+            CannotBuyPanel.SetActive(true);
         }
     }
 
@@ -64,4 +67,10 @@ public class CoinManager : MonoBehaviour
     {
         SceneManager.LoadScene("Map");
     }
+
+    public int GetCoins()
+    {
+        return PlayerPrefs.GetInt("TotalCoins");
+    }
+
 }
