@@ -13,6 +13,8 @@ public class ItemPopUp : MonoBehaviour
     public GameObject detailsPanel;
     public TextMeshProUGUI detailsTextA;
     public TextMeshProUGUI detailsTextB;
+    public TextMeshProUGUI detailsTextSe;
+    public TextMeshProUGUI detailsTextSut;
 
     private MaterialObject pendingItem;
     private CoinManager coinManager;
@@ -41,9 +43,15 @@ public class ItemPopUp : MonoBehaviour
     {
         if (coinManager != null && pendingItem != null)
         {
+            if(coinManager.CanAfford(pendingItem.price)) {
+                PlayerPrefs.SetInt("CurrentMaterial", pendingItem.order);
+                PlayerPrefs.SetFloat("aVal", pendingItem.fatigueStrengthCoeff);
+                PlayerPrefs.SetFloat("bVal", pendingItem.fatigueSrengthExp);
+                PlayerPrefs.SetFloat("SeVal", pendingItem.enduranceLimit);
+                PlayerPrefs.SetFloat("SutVal", pendingItem.ultTensileStrength);
+                PlayerPrefs.Save();
+            }
             coinManager.BuyItem(pendingItem.price);
-            MaterialManager.Instance.currentMaterial = pendingItem;
-            PlayerPrefs.SetInt("CurrentMaterial", pendingItem.order);
         }
         ClosePopup();
     }
@@ -56,7 +64,9 @@ public class ItemPopUp : MonoBehaviour
     public void OpenDetails()
     {
         detailsTextA.text = pendingItem.fatigueStrengthCoeff.ToString();
-        detailsTextA.text = pendingItem.fatigueSrengthExp.ToString();
+        detailsTextB.text = pendingItem.fatigueSrengthExp.ToString();
+        detailsTextSe.text = pendingItem.enduranceLimit.ToString();
+        detailsTextSut.text = pendingItem.ultTensileStrength.ToString();
         goBackButton.onClick.RemoveAllListeners();
         goBackButton.onClick.AddListener(CloseDetails);
         detailsPanel.SetActive(true);
