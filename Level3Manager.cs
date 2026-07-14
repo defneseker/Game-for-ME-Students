@@ -28,8 +28,6 @@ public class Level3Manager : MonoBehaviour
 
     public void CheckStep2()
     {
-        float val1 = ConvertToFloat(no1.text);
-        float val2 = ConvertToFloat(no2.text);
         float val3 = ConvertToFloat(no3.text);
         float expectedResult = (6 / PlayerPrefs.GetInt("SeVal", 100)) + (10 / PlayerPrefs.GetInt("SutVal", 310));
         if (val3 == expectedResult)
