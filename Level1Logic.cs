@@ -13,12 +13,12 @@ public class Level1Finish : MonoBehaviour
     public void CheckAnswer()
     {
         float val1 = ConvertToFloat(no1.text);
-        float a = PlayerPrefs.GetFloat("aVal", 400);
+        float a = PlayerPrefs.GetFloat("aVal", 400.0f);
         float b = PlayerPrefs.GetFloat("bVal", -0.08f);
-        finalResult = Mathf.Pow((val1 / a), (1 / b));
+        finalResult = Mathf.Pow((val1 / a), (1.0f / b));
         PlayerPrefs.SetFloat("CurrentResult", finalResult);
         PlayerPrefs.Save();
-        if (finalResult >= 5)
+        if (finalResult >= Mathf.Pow(10,7) && finalResult <= Mathf.Pow(10,8))
         {
             Debug.Log("Correct");
             SceneManager.LoadScene("Level1Success");
