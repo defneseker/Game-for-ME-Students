@@ -7,8 +7,8 @@ using System.Text.RegularExpressions;
 public class LevelTimer : MonoBehaviour
 {
     [Header("Timer Settings")]
-    [SerializeField] private float timeLeft = 30f;
-    private bool isRunning = false;
+    [SerializeField] public float timeLeft = 30f;
+    public bool isRunning = false;
     [SerializeField] private TextMeshProUGUI timeDisplay;
     [SerializeField] private Button startTimerButton;
     public GameObject instructionsPanel;
