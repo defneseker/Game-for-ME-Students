@@ -2,15 +2,19 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using System.Text.RegularExpressions;
+using TMPro;
 
 public class YesNoManager : MonoBehaviour
 {
     [SerializeField] private YesNoCheck questionUI;
     [SerializeField] private List<YesNoQuestion> questionList;
+    public GameObject coinsPanel;
+    public TextMeshProUGUI coinsText;
 
     private int index = 0;
     private LevelTimer levelTimer;
     private bool quizInteractable = true;
+    
 
     public int GetCurrentLevelNumber()
     {
@@ -35,8 +39,10 @@ public class YesNoManager : MonoBehaviour
         PlayerPrefs.SetInt("PreviousSceneIndex", currentLevel);
         PlayerPrefs.Save();
 
-        questionList.Add(new YesNoQuestion("ex question1, a: yes", true, EvaluateAnswer));
-        questionList.Add(new YesNoQuestion("ex question2, a:no", false, EvaluateAnswer));
+        questionList.Add(new YesNoQuestion("500MPa can be considered a medium-high load and yields about 7.5*10^7 cycles.", true, EvaluateAnswer));
+        questionList.Add(new YesNoQuestion("300MPa falls below the endurance limit, so the component will practically never fail under pure fatigue.", true, EvaluateAnswer));
+        questionList.Add(new YesNoQuestion("The material will be able to withstand more cycles at pressures closer to its UTS.", false, EvaluateAnswer));
+        questionList.Add(new YesNoQuestion("This material can withstand more than 1000MPa pressure with ease.", false, EvaluateAnswer));
         levelTimer = Object.FindFirstObjectByType<LevelTimer>();
         if (levelTimer != null)
         {
@@ -45,11 +51,35 @@ public class YesNoManager : MonoBehaviour
         }
         NextQuestion();
     }
-
+    public bool isRunning;
     public void NextQuestion()
     {
         if (index >= questionList.Count) {
-            SceneManager.LoadScene("LevelSuccess");
+            levelTimer.isRunning = false;
+            if (PlayerPrefs.GetInt("TookCoinsFrom2", 0) == 0)
+            {
+                if (levelTimer.timeLeft > 20)
+                {
+                    PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + 30);
+                    coinsText.text = "+ " + "30 Coins!"; 
+                }
+                else if (levelTimer.timeLeft > 10)
+                {
+                    PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + 20);
+                    coinsText.text = "+ " + "20 Coins!"; 
+                }
+                else
+                {
+                    PlayerPrefs.SetInt("TotalCoins", PlayerPrefs.GetInt("TotalCoins") + 10);
+                    coinsText.text = "+ " + "10 Coins!";
+                }
+                coinsPanel.SetActive(true);
+                PlayerPrefs.SetInt("TookCoinsFrom2", 1);
+                PlayerPrefs.Save();
+            }
+            else{
+                SceneManager.LoadScene("LevelSuccess");
+            }
             PlayerPrefs.SetInt("ReachedLevel", currentLevel + 1);
             return;
         }
@@ -84,5 +114,10 @@ public class YesNoManager : MonoBehaviour
         {
             btn.interactable = state;
         }
+    }
+
+    public void GoToSuccess()
+    {
+        SceneManager.LoadScene("LevelSuccess");
     }
 }
