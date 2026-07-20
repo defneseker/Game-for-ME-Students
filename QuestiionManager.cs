@@ -62,7 +62,12 @@ public class QuestionManager : MonoBehaviour
         if (questionList[index].answerIsInf)
         {
             index++;
-            NextQuestion();
+            if (index >= questionList.Count) {
+                SceneManager.LoadScene("LevelSuccess");
+                PlayerPrefs.SetInt("ReachedLevel", currentLevel + 1);
+                return;
+            }
+            questionUI.PlayCorrectAnimation(() => NextQuestion());
             return;
         }
         float N = CalculateN();
@@ -74,7 +79,12 @@ public class QuestionManager : MonoBehaviour
             return;
         }
         index++;
-        NextQuestion();
+        if (index >= questionList.Count) {
+            SceneManager.LoadScene("LevelSuccess");
+            PlayerPrefs.SetInt("ReachedLevel", currentLevel + 1);
+            return;
+        }
+        questionUI.PlayCorrectAnimation(() => NextQuestion());
     }
 
     public float CalculateN()
