@@ -10,6 +10,11 @@ public class QuestionUI : MonoBehaviour
     [SerializeField] private Button okButton;
     [SerializeField] public TMP_InputField aField;
 
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string animationName = "level4_correct";
+    
+
     public void ShowQuestion(Question qistin) {
         gameObject.SetActive(true);
         questionText.text = qistin.QuestionText;
@@ -25,6 +30,10 @@ public class QuestionUI : MonoBehaviour
             bool wasCorrct = (qistin.answerIsInf == false);
             qistin.OnSelected?.Invoke(wasCorrct, float.Parse(aField.text));
         });
+    }
+
+    public void PlayCorrectAnimation() {
+        animator.Play(animationName, 0, 0f);
     }
 
     private void Hide() => gameObject.SetActive(false);
