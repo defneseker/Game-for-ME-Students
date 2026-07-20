@@ -13,10 +13,15 @@ public class QuestionUI : MonoBehaviour
     [Header("Animation")]
     [SerializeField] private Animator animator;
     [SerializeField] private string animationName = "level4_correct";
+    [SerializeField] private GameObject animationObject;
+    [SerializeField] private GameObject questionPanel;
+
+    private System.Action onAnimationEnd;
     
 
     public void ShowQuestion(Question qistin) {
         gameObject.SetActive(true);
+        questionPanel.SetActive(true);
         questionText.text = qistin.QuestionText;
         infButton.onClick.RemoveAllListeners();
         okButton.onClick.RemoveAllListeners();
@@ -32,8 +37,19 @@ public class QuestionUI : MonoBehaviour
         });
     }
 
-    public void PlayCorrectAnimation() {
+    public void PlayCorrectAnimation(System.Action onComplete) {
+        onAnimationEnd = onComplete;
+        questionPanel.SetActive(false);
+        animationObject.SetActive(true);
         animator.Play(animationName, 0, 0f);
+    }
+
+    public void OnFeedbackAnimationFinished()
+    {
+        animationObject.SetActive(false);
+        questionPanel.SetActive(true);
+        onAnimationEnd?.Invoke();
+        onAnimationEnd = null;
     }
 
     private void Hide() => gameObject.SetActive(false);
