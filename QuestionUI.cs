@@ -14,6 +14,7 @@ public class QuestionUI : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private string animationName = "level4_correct";
     [SerializeField] private GameObject animationObject;
+    [SerializeField] private GameObject idleObject;
     [SerializeField] private GameObject questionPanel;
 
     private System.Action onAnimationEnd;
@@ -40,13 +41,16 @@ public class QuestionUI : MonoBehaviour
     public void PlayCorrectAnimation(System.Action onComplete) {
         onAnimationEnd = onComplete;
         questionPanel.SetActive(false);
+        idleObject.SetActive(false);
         animationObject.SetActive(true);
         animator.Play(animationName, 0, 0f);
+        animator.Update(0f);
     }
 
     public void OnFeedbackAnimationFinished()
     {
         animationObject.SetActive(false);
+        idleObject.SetActive(true);
         questionPanel.SetActive(true);
         onAnimationEnd?.Invoke();
         onAnimationEnd = null;
